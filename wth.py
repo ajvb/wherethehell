@@ -101,12 +101,12 @@ def analyze(dir, out_ext_file = "./out_ext.csv", out_file = "./out.csv"):
     for sublist in olist:
         # sublist is: [ path, adir, current_total_size, current_dict]
         ostr = ""
-        pre_str = sublist[0] + "," + sublist[1] + "," + str(sublist[2]) 
+        pre_str = sublist[0] + "\t" + sublist[1] + "\t" + str(sublist[2])
         for key in sublist[3].keys():
             # format: { "ext1" : ( size, numfiles ) }
-            ostr = pre_str + "," + str(key) + "," + str(sublist[3][key][0]) + "," 
-            ostr += str(int(sublist[3][key][0])/1024) + "," 
-            ostr += str(int(sublist[3][key][0])/(1024*1024)) + "," 
+            ostr = pre_str + "\t" + str(key) + "\t" + str(sublist[3][key][0]) + "\t"
+            ostr += str(int(sublist[3][key][0])/1024) + "\t"
+            ostr += str(int(sublist[3][key][0])/(1024*1024)) + "\t"
             ostr += str(sublist[3][key][1]) + os.linesep
             ofile.write(ostr)
             ostr = ""
@@ -127,6 +127,11 @@ if __name__ == "__main__":
 
     (options, args) = parser.parse_args()
     #print options, args
+
+    if not os.path.exists(options.dir):
+        print options.dir, "does not exist"
+        sys.exit(1)
+
     print "... starting analysis from: ", options.dir
     start = datetime.datetime.now()
 
